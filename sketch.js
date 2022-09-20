@@ -9,6 +9,9 @@ var tracktile;
 var starttile;
 
 var startxy;
+
+var car;
+
 // preload images
 function preload(){
 images[0]= loadImage("grass.png");
@@ -20,7 +23,7 @@ images[3]= loadImage("car.png");
 track = loadStrings("track.txt");
 }
 function setup() {
-  createCanvas(2000,2000);
+  createCanvas(1000,1000);
   background("grey");
 // add groups
   grasstile = new Group();
@@ -56,8 +59,17 @@ iterationscale = tilesize/2;
       }
     }
   }
-  drawSprites();
+//create a car at the start line
+  car = createSprite(startxy[0],startxy[1]);
+  car.addImage(images[3]);
+  car.scale = carsize;
+  car.rotateToDirection = true;
+// could be done by using a collide and a custom funtion to check direction
+  car.rotation = -90;
+drawSprites(grasstile,tracktile,starttile);
 }
+
+
 function makesprite(x,y,z,group){
   var sprite = createSprite(x,y);
   sprite.addImage(images[z]);
@@ -65,15 +77,21 @@ function makesprite(x,y,z,group){
   group.add(sprite);
 }
 
-function draw() {
-//create a car at the start line
-  var car = createSprite(startxy[0],startxy[1]);
-  car.addImage(images[3]);
-  car.scale = carsize;
-// could be done by using a collide and a custom funtion to check direction
-  car.rotation = -90;
 
-// crea
+function draw() {
+
+if (keyIsDown(65)) {
+  car.rotation = car.rotation - 5;
+}
+if (keyIsDown(68)) {
+  car.rotation = car.rotation + 5;
+}
+if (keyIsDown(87)) {
+  car.setVelocity(0,-1);
+}
+if (keyIsDown(83)) {
+  car.setVelocity(0,1)
+}
 
   drawSprites();
 }
