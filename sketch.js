@@ -77,22 +77,29 @@ function makesprite(x,y,z,group){
   group.add(sprite);
 }
 
+// create speed limit
+const speedlimit = 2;
 
 function draw() {
-
-if (keyIsDown(65)) {
-  car.rotation = car.rotation - 5;
-}
-if (keyIsDown(68)) {
-  car.rotation = car.rotation + 5;
-}
-if (keyIsDown(87)) {
-  car.setVelocity(0,-1);
-}
-if (keyIsDown(83)) {
-  car.setVelocity(0,1)
-}
-
+  angleMode(DEGREES);
+  checkkeys();
   drawSprites();
 }
 
+function checkkeys() {
+    if (keyIsDown(65)) {
+      car.rotation = car.rotation - 5;
+    }
+    if (keyIsDown(68)) {
+      car.rotation = car.rotation + 5;
+    }
+    if (keyIsDown(87)) {
+      print (car.getDirection());
+      car.limitSpeed(speedlimit);
+      car.addSpeed(speedlimit/(speedlimit*10),car.rotation);
+    }
+    if (keyIsDown(83)) {
+        car.addSpeed(-0.1,car.rotation);
+        car.rotation = car.rotation
+    }
+  }
